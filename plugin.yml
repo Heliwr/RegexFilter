@@ -1,0 +1,9 @@
+name: RegexFilter
+main: com.github.Heliwr.RegexFilter
+version: 1.05
+description: >
+             Filter chat messages using regular expressions
+commands:
+  regex:
+    description: RegexFilter control
+    usage: /<command> reload
