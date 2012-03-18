@@ -23,26 +23,15 @@ import java.util.logging.Logger;
 * @author FloydATC
 */
 public class RegexFilter extends JavaPlugin {
-//    private final RegexFilterPlayerListener playerListener = new RegexFilterPlayerListener(this);
-
     
     String baseDir = "plugins/RegexFilter";
     String configFile = "settings.txt";
 
     public CopyOnWriteArrayList<String> rules = new CopyOnWriteArrayList<String>();
     private ConcurrentHashMap<String, Pattern> patterns = new ConcurrentHashMap<String, Pattern>(); 
-	public static final Logger logger = Logger.getLogger("Minecraft.RegexFilter");
-//    public static Permissions Permissions = null;
-    
-//    public RegexFilter(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
-//        super(pluginLoader, instance, desc, folder, plugin, cLoader);
-//        // TODO: Place any custom initialization code here
-//
-//        // NOTE: Event registration should be done in onEnable not here as all events are unregistered when a plugin is disabled
-//    }
+	public final Logger logger = Logger.getLogger("Minecraft.RegexFilter");
 
     public void onDisable() {
-        // TODO: Place any custom disable code here
     	rules.clear();
     	patterns.clear();
 
@@ -54,31 +43,16 @@ public class RegexFilter extends JavaPlugin {
     }
 
     public void onEnable() {
-        // TODO: Place any custom enable code here including the registration of any events
     	loadRules();
-//    	setupPermissions();
     	
         // Register our events
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new RegexFilterPlayerListener(null), this);
-
+        pm.registerEvents(new RegexFilterPlayerListener(this), this);
+        
     	// EXAMPLE: Custom code, here we just output some info so we can check all is well
         PluginDescriptionFile pdfFile = this.getDescription();
 		logger.info( pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
     }
-
-//    public void setupPermissions() {
-//    	Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
-//
-//    	if(this.Permissions == null) {
-//    	    if(test != null) {
-//    	    	this.Permissions = (Permissions)test;
-//    	    	logger.info( "[Filter] Permission system detected. Good." );
-//    	    } else {
-//    	    	logger.info( "[Filter] Permission system not enabled, 'ignore/require' rules will be limited." );
-//    	    }
-//    	}
-//    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args ) {
@@ -166,15 +140,6 @@ public class RegexFilter extends JavaPlugin {
     		while (( line = input.readLine()) != null) {
     			line = line.trim();
     			if (!line.matches("^#.*") && !line.matches("")) {
-//    				if (Permissions == null) {
-//    					if (line.startsWith("ignore group") || 
-//    						line.startsWith("ignore permission") || 
-//    						line.startsWith("require group") || 
-//    						line.startsWith("require permission")) {
-//    						logger.warning("[Filter] Permissions unavailable: " + line + " IGNORED");
-//    						continue;
-//    					}
-//    				}
     				rules.add(line);
     				if (line.startsWith("match ") || line.startsWith("replace ")) {
     					String[] parts = line.split(" ", 2);

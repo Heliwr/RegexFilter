@@ -3,6 +3,7 @@ package com.github.Heliwr.RegexFilter;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.Listener;
 
@@ -19,7 +20,7 @@ public class RegexFilterPlayerListener implements Listener {
     }
     
     //Insert Player related code here
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(PlayerChatEvent event) {
         String message = event.getMessage();
         Player player = event.getPlayer();
@@ -62,24 +63,13 @@ public class RegexFilterPlayerListener implements Listener {
         				}
         			}
         		}
-//        		if (line.startsWith("ignore group ")) {
-//        			String groups = line.substring(13);
-//    				valid = true;
-//        			for (String check : groups.split(" ")) {
-//        				String group = plugin.Permissions.Security.getGroup(world, pname);
-//        				if (group.equalsIgnoreCase(check)) {
-//        					matched = false;
-//        					break;
-//        				}
-//        			}
-//        		}
-//        		if (line.startsWith("ignore permission ")) {
-//        			String check = line.substring(18);
-//    				valid = true;
-//        			if (plugin.Permissions.Security.permission(player, check) == true ) {
-//        				matched = false;
-//        			}
-//        		}
+        		if (line.startsWith("ignore permission ")) {
+        			String check = line.substring(18);
+    				valid = true;
+        			if (player.hasPermission(check)) {
+        				matched = false;
+        			}
+        		}
         		if (line.startsWith("require user ")) {
         			String users = line.substring(13);
     				valid = true;
@@ -92,26 +82,6 @@ public class RegexFilterPlayerListener implements Listener {
         			}
         			matched = found;
         		}
-//        		if (line.startsWith("require group ")) {
-//        			String groups = line.substring(14);
-//    				valid = true;
-//    				Boolean found = false;
-//        			for (String check : groups.split(" ")) {
-//        				String group = plugin.Permissions.Security.getGroup(world, pname);
-//        				if (group.equalsIgnoreCase(check)) {
-//        					found = true;
-//        					break;
-//        				}
-//        			}
-//        			matched = found;
-//        		}
-//        		if (line.startsWith("require permission ")) {
-//        			String check = line.substring(19);
-//    				valid = true;
-//        			if (plugin.Permissions.Security.permission(player, check) == false) {
-//        				matched = false;
-//        			}
-//        		}
 				if (line.startsWith("then replace ") || line.startsWith("then rewrite ")) {
 					message = plugin.replacePattern(message, regex, line.substring(13));
 	    			valid = true;
@@ -197,6 +167,5 @@ public class RegexFilterPlayerListener implements Listener {
     		player.kickPlayer(reason);
     		plugin.logger.info("[Filter] Kicked " + player.getName() + ": " + reason);
     	}
-    }
-    
+    }    
 }

@@ -1,6 +1,6 @@
 name: RegexFilter
-main: com.github.Heliwr.RegexFilter
-version: 1.05
+main: com.github.Heliwr.RegexFilter.RegexFilter
+version: 0.2
 description: >
              Filter chat messages using regular expressions
 commands:
