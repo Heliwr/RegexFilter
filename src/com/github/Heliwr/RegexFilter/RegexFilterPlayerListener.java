@@ -1,6 +1,7 @@
 package com.github.Heliwr.RegexFilter;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,10 +26,11 @@ public class RegexFilterPlayerListener implements Listener {
         String message = event.getMessage();
         Player player = event.getPlayer();
         String pname = player.getName();
-//        String world = player.getLocation().getWorld().getName();
 
     	Boolean cancel = false;
     	Boolean kick = false;
+    	Boolean console = false;
+    	String consolecmd = "";
     	String reason = "chat filter";
     	Boolean command = false;
     	Boolean matched = false;
@@ -133,6 +135,11 @@ public class RegexFilterPlayerListener implements Listener {
 					kick = true;
 	    			valid = true;
 				}
+				if (line.startsWith("then console ")) {
+					consolecmd = line.substring(13);
+					console = true;
+					valid = true;
+				}
 				if (line.startsWith("then abort")) {
 					aborted = true;
 	    			valid = true;
@@ -166,6 +173,12 @@ public class RegexFilterPlayerListener implements Listener {
     	if (kick) {
     		player.kickPlayer(reason);
     		plugin.logger.info("[Filter] Kicked " + player.getName() + ": " + reason);
+    	}
+    	if (console) {
+    		consolecmd = consolecmd.replaceAll("&world", player.getLocation().getWorld().getName());
+            consolecmd = consolecmd.replaceAll("&player", player.getName());
+    		plugin.logger.info("[Filter] sending console command: " + consolecmd);
+    		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), consolecmd);
     	}
     }    
 }
