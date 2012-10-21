@@ -1,7 +1,7 @@
 name: RegexFilter
 main: com.github.Heliwr.RegexFilter.RegexFilter
 author: FloydATC, Heliwr
-version: 1.2.1
+version: 1.2.2
 description: >
              Filter chat messages using regular expressions
 commands:

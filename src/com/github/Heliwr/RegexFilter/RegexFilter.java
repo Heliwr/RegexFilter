@@ -197,7 +197,5 @@ public class RegexFilter extends JavaPlugin {
     	Matcher matcher = pattern_from.matcher(msg);
     	return matcher.replaceAll(to);
     }
-    
-    
 }
 

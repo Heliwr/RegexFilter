@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.Listener;
 
 
@@ -22,7 +22,7 @@ public class RegexFilterPlayerListener implements Listener {
     
     //Insert Player related code here
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerChat(PlayerChatEvent event) {
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
         Player player = event.getPlayer();
         String pname = player.getName();
